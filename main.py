@@ -6,7 +6,12 @@ from utils.services_http.exchange_rates_service_http import ExchangeRatesService
 
 
 async def main():
-    pass
+
+    exchange_rates_service: ExchangeRatesServiceHttp = ExchangeRatesServiceHttp()
+
+    data = exchange_rates_service.fetch_data()
+
+    print(data)
 
 
 if __name__ == "__main__":
