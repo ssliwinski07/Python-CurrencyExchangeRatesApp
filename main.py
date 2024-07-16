@@ -10,7 +10,9 @@ async def main():
 
     exchange_rates_service: ExchangeRatesServiceHttp = ExchangeRatesServiceHttp()
 
-    data = exchange_rates_service.fetch_data()
+    exchange_rates: List[ExchangeRatesModel] = exchange_rates_service.fetch_data()
+
+    print(exchange_rates[0].effective_date)
 
 
 if __name__ == "__main__":

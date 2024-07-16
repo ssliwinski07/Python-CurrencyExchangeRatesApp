@@ -15,9 +15,9 @@ class ExchangeRatesServiceHttp:
 
     api_url = "http://api.nbp.pl/api/exchangerates/tables/a/2024-07-15/?format=json"
 
-    def fetch_data(self):
+    def fetch_data(self) -> List[ExchangeRatesModel]:
         response = requests.get(url=self.api_url)
         response.raise_for_status
         data = response.json()
 
-        return ExchangeRatesModel.json_deserialize(data=data[0])
+        return [ExchangeRatesModel.json_deserialize(data=data[0])]
