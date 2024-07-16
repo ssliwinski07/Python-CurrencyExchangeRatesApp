@@ -1,4 +1,5 @@
 import asyncio
+from typing import List
 
 
 from utils.models.exchange_rates_model import ExchangeRatesModel
@@ -10,8 +11,6 @@ async def main():
     exchange_rates_service: ExchangeRatesServiceHttp = ExchangeRatesServiceHttp()
 
     data = exchange_rates_service.fetch_data()
-
-    print(data)
 
 
 if __name__ == "__main__":
