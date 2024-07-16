@@ -1,23 +1,25 @@
 import httpx
 from typing import List
-import requests
-from dataclasses import dataclass, field
-from typing import List
-from dataclasses_json import dataclass_json
-import requests
 
-from utils.consts.consts import BASE_API
+from utils.consts.consts import BASE_API_NBP
 from utils.models.exchange_rates_model import ExchangeRatesModel
-from utils.models.rates_model import RatesModel
 
 
 class ExchangeRatesServiceHttp:
 
-    api_url = "http://api.nbp.pl/api/exchangerates/tables/a/2024-07-15/?format=json"
+    exchange_rates: List[ExchangeRatesModel] = []
 
-    def fetch_data(self) -> List[ExchangeRatesModel]:
-        response = requests.get(url=self.api_url)
-        response.raise_for_status
-        data = response.json()
-
-        return [ExchangeRatesModel.json_deserialize(data=data[0])]
+    async def fetch_data(self, endpoint) -> List[ExchangeRatesModel]:
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.get(url=f"{BASE_API_NBP}{endpoint}")
+                response.raise_for_status
+                data = response.json()
+                exchange_rates = [ExchangeRatesModel.json_deserialize(data=data[0])]
+                return exchange_rates
+            except httpx.HTTPStatusError as http_err:
+                print(f"HTTP error occurred: {http_err}")
+                return self.exchange_rates
+            except Exception as err:
+                print(f"Other error occurred: {err}")
+                return self.exchange_rates

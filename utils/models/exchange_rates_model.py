@@ -1,4 +1,3 @@
-import requests
 from pydantic import BaseModel, Field
 from typing import List
 
@@ -9,7 +8,7 @@ from utils.models.rates_model import RatesModel
 class ExchangeRatesModel(BaseModel):
     table: str
     no: str
-    effective_date: str = Field(alias="effectiveDate")
+    effective_date: str = Field(alias=EFFECTIVE_DATE)
     rates: List[RatesModel]
 
     @classmethod

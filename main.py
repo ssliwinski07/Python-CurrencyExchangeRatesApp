@@ -4,15 +4,21 @@ from typing import List
 
 from utils.models.exchange_rates_model import ExchangeRatesModel
 from utils.services_http.exchange_rates_service_http import ExchangeRatesServiceHttp
+from utils.models.people_model import PeopleModel
+from utils.services_http.people_service_http import PeopleServiceHttp
 
 
 async def main():
 
     exchange_rates_service: ExchangeRatesServiceHttp = ExchangeRatesServiceHttp()
+    people_service: PeopleServiceHttp = PeopleServiceHttp()
 
-    exchange_rates: List[ExchangeRatesModel] = exchange_rates_service.fetch_data()
+    endpoint_nbp: str = "/exchangerates/tables/a/2029-06-05/?format=json"
+    endpoint_swapi: str = "/people/1/"
 
-    print(exchange_rates[0].effective_date)
+    people: PeopleModel = await people_service.fetch_data(endpoint=endpoint_swapi)
+
+    print(people.name)
 
 
 if __name__ == "__main__":
