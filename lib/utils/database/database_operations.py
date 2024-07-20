@@ -9,6 +9,7 @@ from lib.consts.consts import ENCODING_UTF
 ## 1. In method __create_connection_string do the get the data from json file, instead of yaml + create class
 # ConfigModel with with properties db_name, db_user etc. + using json serialization fill the object with data from json file
 ## 2. Add method to insert data to db
+## 3. Think about adding connection close to the method to insert data to db
 
 
 class DatabaseOperations:
@@ -26,7 +27,7 @@ class DatabaseOperations:
         except SQLAlchemyError as error:
             print(f"Error occured: {error}")
 
-    def close_db_connection(db_connection: sql.Connection):
+    def close_db_connection(self, db_connection: sql.Connection):
         db_connection.close()
 
     def __create_connection_string(self) -> str:
