@@ -1,0 +1,21 @@
+import httpx
+from typing import List
+
+from lib.consts.consts import BASE_API_NBP
+from lib.models.exchange_rates_model import ExchangeRatesModel
+
+
+class ExchangeRatesServiceHttp:
+
+    exchange_rates: List[ExchangeRatesModel] = []
+
+    async def fetch_data(self, endpoint) -> List[ExchangeRatesModel]:
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.get(url=f"{BASE_API_NBP}{endpoint}")
+                response.raise_for_status
+                data = response.json()
+                exchange_rates = [ExchangeRatesModel.json_deserialize(data=data[0])]
+                return exchange_rates
+            except Exception:
+                return self.exchange_rates
