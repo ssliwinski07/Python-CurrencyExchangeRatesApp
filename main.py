@@ -5,7 +5,6 @@ from typing import List
 from utils.currencies.currencies_rates import CurrenciesRates
 from utils.helpers.helpers import Helpers
 from utils.services_http.exchange_rates_service_http import ExchangeRatesServiceHttp
-from utils.consts.consts import ENCODING_UTF, ENCRYPTION_KEY
 
 
 async def main():
