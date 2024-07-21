@@ -30,9 +30,9 @@ class DatabaseOperations:
     def close_db_connection(self, db_connection: sql.Connection):
         db_connection.close()
 
-    def __create_connection_string(self) -> str:
+    async def __create_connection_string(self) -> str:
         connection_string: str
-        config: DatabaseConfigModel = self.__get_config()
+        config: DatabaseConfigModel = await self.__get_config()
 
         if config != None:
             decrypted_pwd = Encryption.decrypt_password(
@@ -43,11 +43,11 @@ class DatabaseOperations:
 
         return connection_string
 
-    def __get_config(self) -> DatabaseConfigModel:
+    async def __get_config(self) -> DatabaseConfigModel:
         config_file: DatabaseConfigModel = None
 
         with open(self.config_path, "r", encoding=ENCODING_UTF) as f:
-            loaded_data = json.load(f)
+            loaded_data = await json.load(f)
             config_file = DatabaseConfigModel.json_deserialize(loaded_data)
 
         return config_file
