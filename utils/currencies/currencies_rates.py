@@ -1,14 +1,15 @@
 import time
 from typing import List
 
-from lib.utils.utilities import Utilities
-from lib.services_http.exchange_rates_service_http import ExchangeRatesServiceHttp
+from utils.helpers.helpers import Helpers
+from utils.services_http.exchange_rates_service_http import ExchangeRatesServiceHttp
 
 
 class CurrenciesRates:
-    exchange_rates_service: ExchangeRatesServiceHttp = ExchangeRatesServiceHttp()
 
-    @classmethod
+    def __init__(self, exchange_rates_service: ExchangeRatesServiceHttp):
+        self.exchange_rates_service = exchange_rates_service
+
     async def fetch_currencies_rates_for_month(
         self,
         year: int,
@@ -18,7 +19,7 @@ class CurrenciesRates:
         rates_dict = {}
         rates_list: List[dict] = []
 
-        days: int = Utilities.get_month_days(year, month)
+        days: int = Helpers.get_month_days(year, month)
 
         for i in range(1, days + 1):
             time.sleep(0.25)
@@ -39,7 +40,6 @@ class CurrenciesRates:
                             "effectiveDate": exchange_rates[0].effective_date,
                             **rate_dict,
                         }
-                        # print(rates_dict)
                         rates_list.append(rates_dict)
 
         return rates_list

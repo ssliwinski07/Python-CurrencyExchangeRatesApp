@@ -1,8 +1,8 @@
 import httpx
 from typing import List
 
-from lib.consts.consts import BASE_API_NBP
-from lib.models.exchange_rates_model import ExchangeRatesModel
+from utils.consts.consts import BASE_API_NBP
+from utils.models.exchange_rates_model import ExchangeRatesModel
 
 
 class ExchangeRatesServiceHttp:

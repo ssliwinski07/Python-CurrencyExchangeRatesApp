@@ -2,11 +2,17 @@ import asyncio
 import json
 from typing import List
 
-from lib.utils.currencies.currencies_rates import CurrenciesRates
-from lib.utils.utilities import Utilities
+from utils.currencies.currencies_rates import CurrenciesRates
+from utils.helpers.helpers import Helpers
+from utils.services_http.exchange_rates_service_http import ExchangeRatesServiceHttp
+from utils.models.database_config_model import DatabaseConfigModel
+from utils.consts.consts import ENCODING_UTF, ENCRYPTION_KEY
+from utils.encryptions.encryption import Encryption
 
 
 async def main():
+
+    exchange_rates_service: ExchangeRatesServiceHttp = ExchangeRatesServiceHttp()
 
     while True:
         try:
@@ -24,12 +30,12 @@ async def main():
                 print("Invalid month. Please enter a number between 1 and 12.")
                 continue
 
-            currencies_rates: List[dict] = (
-                await CurrenciesRates.fetch_currencies_rates_for_month(
-                    year=year_input_int,
-                    month=month_input_int,
-                    rates_to_look=["CHF", "USD"],
-                )
+            currencies_rates: List[dict] = await CurrenciesRates(
+                exchange_rates_service=exchange_rates_service
+            ).fetch_currencies_rates_for_month(
+                year=year_input_int,
+                month=month_input_int,
+                rates_to_look=["CHF", "USD"],
             )
 
             print(json.dumps(currencies_rates, indent=4))
@@ -41,7 +47,7 @@ async def main():
             if is_continue != "yes":
                 break
 
-            Utilities.clear_screen()
+            Helpers.clear_screen()
         except Exception as e:
             print(f"Error: {e}")
 

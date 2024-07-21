@@ -2,14 +2,14 @@ import sqlalchemy as sql
 from sqlalchemy.exc import SQLAlchemyError
 import yaml
 import asyncio
+import json
 
-from lib.consts.consts import ENCODING_UTF
+from utils.consts.consts import ENCODING_UTF, ENCRYPTION_KEY
+from utils.models.database_config_model import DatabaseConfigModel
+from utils.encryptions.encryption import Encryption
 
 ### TO DO
-## 1. In method __create_connection_string do the get the data from json file, instead of yaml + create class
-# ConfigModel with with properties db_name, db_user etc. + using json serialization fill the object with data from json file
-## 2. Add method to insert data to db
-## 3. Think about adding connection close to the method to insert data to db
+## 1. Add method to insert data to db
 
 
 class DatabaseOperations:
@@ -31,17 +31,23 @@ class DatabaseOperations:
         db_connection.close()
 
     def __create_connection_string(self) -> str:
-        config_file: dict = self.__get_config_file()
-        connection_string: str = (
-            f"postgresql+psycopg2://{config_file['db_user']}:{config_file['db_pass']}@{config_file['db_host']}:{config_file['db_port']}/{config_file['db_name']}"
-        )
+        connection_string: str
+        config: DatabaseConfigModel = self.__get_config()
+
+        if config != None:
+            decrypted_pwd = Encryption.decrypt_password(
+                encrypted_password=config.password, key=ENCRYPTION_KEY
+            )
+
+            connection_string = f"postgresql+psycopg2://{config.user}:{decrypted_pwd}@{config.host}:{config.port}/{config.database_name}"
 
         return connection_string
 
-    def __get_config_file(self) -> dict:
-        config_file: dict = {}
+    def __get_config(self) -> DatabaseConfigModel:
+        config_file: DatabaseConfigModel = None
 
         with open(self.config_path, "r", encoding=ENCODING_UTF) as f:
-            config_file = yaml.safe_load(f)
+            loaded_data = json.load(f)
+            config_file = DatabaseConfigModel.json_deserialize(loaded_data)
 
         return config_file

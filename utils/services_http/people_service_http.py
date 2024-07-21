@@ -1,8 +1,8 @@
 import httpx
 from typing import List
 
-from lib.consts.consts import BASE_API_SWAPI
-from lib.models.people_model import PeopleModel
+from utils.consts.consts import BASE_API_SWAPI
+from utils.models.people_model import PeopleModel
 
 
 class PeopleServiceHttp:

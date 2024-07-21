@@ -1,7 +1,7 @@
 import calendar
 
 
-class Utilities:
+class Helpers:
 
     @staticmethod
     def get_month_days(year: int, month: int) -> int:

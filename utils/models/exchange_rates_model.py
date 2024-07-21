@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List
 
-from lib.consts.consts import EFFECTIVE_DATE
-from lib.models.rates_model import RatesModel
+from utils.consts.consts import EFFECTIVE_DATE
+from utils.models.rates_model import RatesModel
 
 
 class ExchangeRatesModel(BaseModel):
