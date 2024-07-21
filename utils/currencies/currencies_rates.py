@@ -16,7 +16,6 @@ class CurrenciesRates:
         month: int,
         rates_to_look: list,
     ) -> List[dict]:
-        rates_dict = {}
         rates_list: List[dict] = []
 
         days: int = Helpers.get_month_days(year, month)

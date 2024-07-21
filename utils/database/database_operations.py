@@ -1,7 +1,5 @@
 import sqlalchemy as sql
 from sqlalchemy.exc import SQLAlchemyError
-import yaml
-import asyncio
 import json
 
 from utils.consts.consts import ENCODING_UTF, ENCRYPTION_KEY
@@ -30,9 +28,9 @@ class DatabaseOperations:
     def close_db_connection(self, db_connection: sql.Connection):
         db_connection.close()
 
-    async def __create_connection_string(self) -> str:
+    def __create_connection_string(self) -> str:
         connection_string: str
-        config: DatabaseConfigModel = await self.__get_config()
+        config: DatabaseConfigModel = self.__get_config()
 
         if config != None:
             decrypted_pwd = Encryption.decrypt_password(
@@ -43,11 +41,11 @@ class DatabaseOperations:
 
         return connection_string
 
-    async def __get_config(self) -> DatabaseConfigModel:
+    def __get_config(self) -> DatabaseConfigModel:
         config_file: DatabaseConfigModel = None
 
         with open(self.config_path, "r", encoding=ENCODING_UTF) as f:
-            loaded_data = await json.load(f)
+            loaded_data = json.load(f)
             config_file = DatabaseConfigModel.json_deserialize(loaded_data)
 
         return config_file
