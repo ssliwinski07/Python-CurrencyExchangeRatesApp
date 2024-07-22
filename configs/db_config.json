@@ -1,7 +1,7 @@
 {
-    "user": "test",
+    "user": "postgres",
     "password": "gAAAAABmnUHo-4OmPGHks4cAcG_roF-e6s6Upt0PBGOVPq1mRNZD1CCN_EzjuZeS_dRFg7dqSZ4J7uBWZPA_08DVHFeVG9_Jmg==",
     "host": "localhost",
-    "port": "11111111111",
+    "port": "5432",
     "databaseName": "training"
 }

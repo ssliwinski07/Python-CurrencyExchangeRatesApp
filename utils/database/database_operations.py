@@ -26,7 +26,22 @@ class DatabaseOperations:
             print(f"Error occured: {error}")
 
     def close_db_connection(self, db_connection: sql.Connection):
-        db_connection.close()
+
+        try:
+            db_connection.close()
+        except Exception as e:
+            print(f"Error occured: {e}")
+
+    def check_db_connection(self) -> bool:
+
+        try:
+            connection = self.open_db_connection()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+        finally:
+            self.close_db_connection(db_connection=connection)
 
     def __create_connection_string(self) -> str:
         connection_string: str
