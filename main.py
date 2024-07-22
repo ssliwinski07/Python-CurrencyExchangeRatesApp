@@ -20,7 +20,6 @@ async def get_data(year: int, month: int):
         ).fetch_currencies_rates_for_month(
             year=year,
             month=month,
-            # rates_to_look=rates_input_list,
         )
     except Exception as e:
         print(f"Error occured: {e}")

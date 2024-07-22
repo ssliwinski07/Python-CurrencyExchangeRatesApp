@@ -14,7 +14,6 @@ class CurrenciesRates:
         self,
         year: int,
         month: int,
-        # rates_to_look: list,
     ) -> List[dict]:
         rates_list: List[dict] = []
 
