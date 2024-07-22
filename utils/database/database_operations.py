@@ -1,4 +1,5 @@
 import sqlalchemy as sql
+from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 import json
 
@@ -40,6 +41,16 @@ class DatabaseOperations:
         except Exception as e:
             print(f"Error: {e}")
             return False
+        finally:
+            self.close_db_connection(db_connection=connection)
+
+    def insert_data(self, query: str, data, connection: sql.Connection):
+        try:
+            connection.execute(text(query), data)
+            connection.commit()
+            print("Data inserted succesfully")
+        except SQLAlchemyError as e:
+            print(f"Error: {e}")
         finally:
             self.close_db_connection(db_connection=connection)
 
