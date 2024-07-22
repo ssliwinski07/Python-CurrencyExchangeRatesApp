@@ -49,15 +49,27 @@ async def main():
     while True:
         try:
             month_input = input("Enter month (1-12): ")
-            year_input = input("Enter year: ")
 
-            if not month_input.isdigit() or not year_input.isdigit():
-                print("Wrong value, please provide a valid number.")
+            if not month_input.isdigit():
+                print(
+                    "Month number must be a valid digit from range 1-12. Try again..."
+                )
                 continue
 
-            currencies_rates = await get_data(
-                year=int(year_input), month=int(month_input)
-            )
+            month = int(month_input)
+            if month < 1 or month > 12:
+                print("Month number must from range 1-12. Try again...")
+                continue
+
+            year_input = input("Enter year: ")
+
+            if not year_input.isdigit():
+                print("Year must be a valid digit. Try again...")
+                continue
+
+            year = int(year_input)
+
+            currencies_rates = await get_data(year=year, month=month)
 
             print(f"Fetched data: \n{json.dumps(currencies_rates, indent=4)}")
 
