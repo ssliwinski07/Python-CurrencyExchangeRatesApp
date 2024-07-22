@@ -7,9 +7,6 @@ from utils.consts.consts import ENCODING_UTF, ENCRYPTION_KEY
 from utils.models.database_config_model import DatabaseConfigModel
 from utils.encryptions.encryption import Encryption
 
-### TO DO
-## 1. Add method to insert data to db
-
 
 class DatabaseOperations:
 
@@ -67,10 +64,10 @@ class DatabaseOperations:
         return connection_string
 
     def __get_config(self) -> DatabaseConfigModel:
-        config_file: DatabaseConfigModel = None
+        config: DatabaseConfigModel = None
 
         with open(self.config_path, "r", encoding=ENCODING_UTF) as f:
             loaded_data = json.load(f)
-            config_file = DatabaseConfigModel.json_deserialize(loaded_data)
+            config = DatabaseConfigModel.json_deserialize(loaded_data)
 
-        return config_file
+        return config
