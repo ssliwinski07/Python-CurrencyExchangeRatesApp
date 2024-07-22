@@ -30,6 +30,7 @@ class DatabaseOperations:
 
         try:
             db_connection.close()
+            print("Connection successfully closed")
         except Exception as e:
             print(f"Error occured: {e}")
 
@@ -51,8 +52,6 @@ class DatabaseOperations:
             print("Data inserted succesfully")
         except SQLAlchemyError as e:
             print(f"Error: {e}")
-        finally:
-            self.close_db_connection(db_connection=connection)
 
     def __create_connection_string(self) -> str:
         connection_string: str

@@ -14,7 +14,7 @@ class CurrenciesRates:
         self,
         year: int,
         month: int,
-        rates_to_look: list,
+        # rates_to_look: list,
     ) -> List[dict]:
         rates_list: List[dict] = []
 
@@ -33,12 +33,11 @@ class CurrenciesRates:
             if exchange_rates:
                 rates = exchange_rates[0].rates
                 for rate in rates:
-                    if rate.code in rates_to_look:
-                        rate_dict = dict(rate)
-                        rates_dict = {
-                            "effectiveDate": exchange_rates[0].effective_date,
-                            **rate_dict,
-                        }
-                        rates_list.append(rates_dict)
+                    rate_dict = dict(rate)
+                    rates_dict = {
+                        "effectiveDate": exchange_rates[0].effective_date,
+                        **rate_dict,
+                    }
+                    rates_list.append(rates_dict)
 
         return rates_list
